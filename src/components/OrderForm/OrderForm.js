@@ -50,17 +50,21 @@ class OrderForm extends Component {
       name: this.state.name,
       ingredients: this.state.ingredients
     })
-      .then(data => {
-        if (data.message) {
-          this.setState({errorMsg: data.message});
-          return
-        } 
-        this.clearInputs();
-        this.props.addOrders();
-        return;
-      })
+      .then(data => this.handleResponseData(data))
       .catch(err => console.log('ERROR: ', err))
     
+  }
+
+  handleResponseData = (data) => {
+    // error returns have an error message
+    if (data.message) {
+      this.setState({errorMsg: data.message});
+      return
+    } 
+    // successful returns are good bois and get to be displayed
+    this.clearInputs();
+    this.props.addOrders();
+    return;
   }
 
   clearInputs = () => {

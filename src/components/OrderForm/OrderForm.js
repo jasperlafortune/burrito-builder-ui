@@ -6,7 +6,8 @@ class OrderForm extends Component {
     super(props);
     this.state = {
       name: '',
-      ingredients: []
+      ingredients: [],
+      errorMsg: ''
     };
   }
 
@@ -44,11 +45,22 @@ class OrderForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    this.setState({errorMsg: ''});
     saveOrder({
       name: this.state.name,
       ingredients: this.state.ingredients
     })
-    this.clearInputs();
+      .then(data => {
+        if (data.message) {
+          this.setState({errorMsg: data.message});
+          return
+        } 
+        this.clearInputs();
+        this.props.addOrders();
+        return;
+      })
+      .catch(err => console.log('ERROR: ', err))
+    
   }
 
   clearInputs = () => {
@@ -78,6 +90,8 @@ class OrderForm extends Component {
         { ingredientButtons }
 
         <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
+
+        {this.state.errorMsg ? <p>{this.state.errorMsg}</p> : null}
 
         <button disabled={this.validateOrder()} onClick={e => this.handleSubmit(e)}>
           Submit Order

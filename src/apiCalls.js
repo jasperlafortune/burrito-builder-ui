@@ -3,3 +3,16 @@ export const getOrders = () => {
       .then(response => response.json())
       .then(data => data.orders);
 }
+
+export const saveOrder = (order) => {
+  // Post the order as a JSON objet
+  return fetch('http://localhost:3001/api/v1/orders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(order)
+  })
+    .then(response => response.json)
+    // return the response JSON
+}

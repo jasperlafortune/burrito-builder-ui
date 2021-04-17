@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 class OrderForm extends Component {
   constructor(props) {
-    super();
-    this.props = props;
+    super(props);
     this.state = {
       name: '',
       ingredients: []
@@ -29,6 +28,17 @@ class OrderForm extends Component {
       ingredients.push(ingredient)
       this.setState({ingredients: ingredients})
     }
+  }
+
+  validateOrder = () => {
+    let isInvalid = false;
+    if (!this.state.name) {
+      isInvalid = true;
+    }
+    if (!this.state.ingredients.length) {
+      isInvalid = true;
+    }
+    return isInvalid;
   }
 
   handleSubmit = e => {
@@ -64,7 +74,7 @@ class OrderForm extends Component {
 
         <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
 
-        <button onClick={e => this.handleSubmit(e)}>
+        <button disabled={this.validateOrder()} onClick={e => this.handleSubmit(e)}>
           Submit Order
         </button>
       </form>

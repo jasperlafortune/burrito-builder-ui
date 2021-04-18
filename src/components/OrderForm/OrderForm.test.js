@@ -34,7 +34,7 @@ describe("Test Order Form Component", () => {
         expect(orderSummary.textContent).toBe("Order: beans, steak");
         // click beans button again
         fireEvent.click(beansButton);
-        // check if order is for beans
+        // check if order is for steak
         expect(orderSummary.textContent).toBe("Order: steak");
     })
 })
